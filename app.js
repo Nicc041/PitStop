@@ -1,7 +1,7 @@
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization,kml';  // Added 'kml' to libraries
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -15,6 +15,7 @@ function initMap() {
         center: troyNY,
     });
 
+    // Ensure that the KML Layer is loaded correctly
     const kmlLayer = new google.maps.KMLLayer({
         url: 'downtown.kml',
         map: map,
@@ -32,6 +33,7 @@ function initMap() {
                     lng: position.coords.longitude,
                 };
 
+                // Add a marker for the user's location
                 const userMarker = new google.maps.Marker({
                     position: userLocation,
                     map,
@@ -46,10 +48,11 @@ function initMap() {
                     },
                 });
 
+                // Center the map on the user's location
                 map.setCenter(userLocation);
             },
-            (error) => {
-                console.error("Geolocation service failed or was denied:", error.message);
+            () => {
+                console.error("Geolocation service failed or was denied.");
             }
         );
     } else {
