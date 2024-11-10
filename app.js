@@ -10,6 +10,7 @@ function loadGoogleMapsAPI() {
 let userLocation;
 let directionsService;
 let directionsRenderer;
+let startMarker, destinationMarker;
 
 // Initialize map
 function initMap() {
@@ -19,6 +20,7 @@ function initMap() {
         zoom: 15,
         center: troyNY,
         disableDefaultUI: true,
+        colorScheme: ColorScheme.FOLLOW_SYSTEM,
         styles: [
             {
                 "featureType": "poi",
@@ -75,7 +77,8 @@ function initMap() {
                     lng: position.coords.longitude,
                 };
 
-                new google.maps.Marker({
+                // Create a custom user location marker
+                startMarker = new google.maps.Marker({
                     position: userLocation,
                     map: map,
                     title: "Your Location",
@@ -109,7 +112,7 @@ function calculateAndDisplayRoute(destination, title, description) {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsRenderer.setDirections(response);
 
-                // Extract distance and duration
+                // Extract the first leg of the route
                 const route = response.routes[0];
                 const leg = route.legs[0]; // The first leg of the route
                 const distance = leg.distance.text; // Distance in human-readable format
@@ -123,6 +126,21 @@ function calculateAndDisplayRoute(destination, title, description) {
                     <strong>Duration:</strong> ${duration}
                 `;
 
+                // Create destination marker with custom icon
+                destinationMarker = new google.maps.Marker({
+                    position: destination,
+                    map: directionsRenderer.getMap(),
+                    title: "Destination",
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 10,
+                        fillColor: "#DB4437", // Red color for destination
+                        fillOpacity: 0.8,
+                        strokeColor: "#ffffff",
+                        strokeWeight: 2,
+                    },
+                });
+
                 // If InfoWindow is open, close it
                 if (infoWindow.getMap()) {
                     infoWindow.close();
@@ -131,8 +149,7 @@ function calculateAndDisplayRoute(destination, title, description) {
                 // Open the InfoWindow at the destination's position
                 infoWindow.setContent(routeDescription);
                 infoWindow.setPosition(destination);
-                infoWindow.open(map);
-
+                infoWindow.open(directionsRenderer.getMap());
             } else {
                 console.error("Directions request failed due to " + status);
             }
