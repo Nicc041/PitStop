@@ -8,29 +8,14 @@
         <Icon>
           <href>http://maps.google.com/mapfiles/kml/paddle/grn-blank.png</href>
         </Icon>
-        <color>ff0000ff</color>
+        <color>ff0000</color>
         <scale>1.5</scale>
       </IconStyle>
     </Style>
 
-    <Placemark>
-      <name>Bathroom 1</name>
-      <styleUrl>#CustomMarkerStyle</styleUrl>
-      <Point>
-        <coordinates>-73.691788,42.728145,0</coordinates>
-      </Point>
-    </Placemark>
-
-    <Placemark>
-      <name>Bathroom 2</name>
-      <styleUrl>#CustomMarkerStyle</styleUrl>
-      <Point>
-        <coordinates>-73.688000,42.725000,0</coordinates>
-      </Point>
-    </Placemark>
-
     <NetworkLink>
       <name>Troy Bathrooms</name>
+      <styleUrl>#CustomMarkerStyle</styleUrl>
       <Link>
         <href><![CDATA[https://www.google.com/maps/d/kml?forcekml=1&mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&lid=A-4ug6eqltM]]></href>
       </Link>
