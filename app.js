@@ -1,7 +1,7 @@
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry,visualization,marker';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization,marker'; 
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
