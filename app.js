@@ -13,6 +13,7 @@ function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: troyNY,
+        disableDefaultUI: true, 
     });
 
     // Add markers from Google My Maps link
