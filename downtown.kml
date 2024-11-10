@@ -28,7 +28,6 @@
     <!-- Sample Placemark 2 -->
     <Placemark>
       <name>Bathroom 2</name>
-      <description>Bathroom 2 is located here. Click for directions!</description>
       <styleUrl>#markerStyle</styleUrl>
       <Point>
         <coordinates>-73.6908,42.7310</coordinates>

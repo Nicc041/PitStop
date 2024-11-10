@@ -41,7 +41,6 @@ function initMap() {
         preserveViewport: true,
     });
 
-    // Geolocation: Show the user's current location
     kmlLayer.addListener('click', (event) => {
         const placemark = event.featureData;
         const destination = {
@@ -51,6 +50,11 @@ function initMap() {
 
         // Check if the user location is available
         if (userLocation) {
+            // Close the info window if it's already open
+            if (infoWindow) {
+                infoWindow.close(); // Close the previous info window
+            }
+
             const contentString = `
                 <div>
                     <h3>Directions to ${placemark.name}</h3>
@@ -58,15 +62,17 @@ function initMap() {
                     <button onclick="calculateAndDisplayRoute({lat: ${destination.lat}, lng: ${destination.lng}})">Get Directions</button>
                 </div>
             `;
+
+            // Set the content and position of the info window
             infoWindow.setContent(contentString);
             infoWindow.setPosition(event.latLng);
-            infoWindow.open(map);
+            infoWindow.open(map); // Open the new info window
         } else {
             alert("User location is not available.");
         }
     });
-
-    // Get user location
+    
+    // Geolocation: Show the user's current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
