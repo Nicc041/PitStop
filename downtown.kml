@@ -41,28 +41,6 @@
           </Style>
         </Change>
         
-        <!-- Add new style or feature -->
-        <Create>
-          <!-- You can add new styles or other features here -->
-          <Style id="new-style">
-            <IconStyle>
-              <color>ff0000ff</color> <!-- Blue color -->
-              <scale>2.0</scale> <!-- Larger scale -->
-              <Icon>
-                <href>https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Marker_icon_blue.svg/1024px-Marker_icon_blue.svg.png</href>
-              </Icon>
-              <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-            </IconStyle>
-            <LabelStyle>
-              <scale>1.0</scale> <!-- Normal label scale -->
-            </LabelStyle>
-          </Style>
-        </Create>
-
-        <!-- Optionally, delete old styles -->
-        <Delete>
-          <Style id="icon-1899-0288D1-nodesc-normal"/> <!-- Deleting a style -->
-        </Delete>
       </Update>
     </NetworkLink>
 

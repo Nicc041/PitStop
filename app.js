@@ -48,10 +48,20 @@ function initMap() {
             };
 
             const clickedPlacemark = event.feature;
-            const title = clickedPlacemark.getProperty('name');
-            const description = clickedPlacemark.getProperty('description');  
 
-            calculateAndDisplayRoute(destination, title, description);
+            // Ensure that the clickedPlacemark is valid and has the properties we expect
+            if (clickedPlacemark) {
+                const title = clickedPlacemark.getProperty('name');
+                const description = clickedPlacemark.getProperty('description');
+
+                if (title && description) {
+                    calculateAndDisplayRoute(destination, title, description);
+                } else {
+                    console.error('No title or description available for this placemark.');
+                }
+            } else {
+                console.error('No placemark clicked or invalid feature.');
+            }
         } else {
             alert("User location is not available.");
         }
