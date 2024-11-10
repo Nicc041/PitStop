@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Downtown Troy</name>
-
-    <!-- Define the style once and use it globally -->
-    <Style id="markerStyle">
-      <IconStyle>
-        <Icon>
-          <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <color>ff0000ff</color> 
-      </LabelStyle>
-    </Style>
+    <name>Downtown Troy</name>s
 
     <NetworkLink>
       <name>Troy Bathrooms</name>

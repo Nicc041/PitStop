@@ -10,7 +10,6 @@ function loadGoogleMapsAPI() {
 let userLocation;
 let directionsService;
 let directionsRenderer;
-let infoWindow;
 
 // Initialize map
 function initMap() {
@@ -33,15 +32,24 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
-    infoWindow = new google.maps.InfoWindow();
-
     const kmlLayer = new google.maps.KmlLayer({
         url: 'https://nicc041.github.io/PitStop/downtown.kml',
         map: map,
         preserveViewport: true,
     });
 
-    // Geolocation: Show the user's current location
+    kmlLayer.addListener('click', (event) => {
+        if (userLocation) {
+            const destination = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            };
+            calculateAndDisplayRoute(destination);
+        } else {
+            alert("User location is not available.");
+        }
+    });
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -90,4 +98,5 @@ function calculateAndDisplayRoute(destination) {
     );
 }
 
+// Load the Google Maps API when the document is ready
 loadGoogleMapsAPI();
