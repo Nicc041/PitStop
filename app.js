@@ -7,27 +7,30 @@ function loadGoogleMapsAPI() {
     document.body.appendChild(script);
 }
 
+let userLocation;
+let directionsService;
+let directionsRenderer;
+
 // Initialize map
 function initMap() {
     const troyNY = { lat: 42.7284, lng: -73.6918 }; // Center on Troy, NY
 
-    // Map styling to hide labels and places (POI)
-    const mapStyles = [
-        {
-            "featureType": "poi",
-            "elementType": "labels",
-            "stylers": [
-                { "visibility": "off" }
-            ]
-        }
-    ];
-
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: troyNY,
-        disableDefaultUI: true, 
-        styles: mapStyles, 
+        disableDefaultUI: true,
+        styles: [
+            {
+                "featureType": "poi",
+                "elementType": "labels",
+                "stylers": [{ "visibility": "off" }]
+            }
+        ]
     });
+
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
 
     const kmlLayer = new google.maps.KmlLayer({
         url: 'https://nicc041.github.io/PitStop/downtown.kml',
@@ -35,17 +38,27 @@ function initMap() {
         preserveViewport: true,
     });
 
-    // Geolocation: Show the user's current location
+    kmlLayer.addListener('click', (event) => {
+        if (userLocation) {
+            const destination = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            };
+            calculateAndDisplayRoute(destination);
+        } else {
+            alert("User location is not available.");
+        }
+    });
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const userLocation = {
+                userLocation = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 };
 
-                // Add a marker for the user's location
-                const userMarker = new google.maps.Marker({
+                new google.maps.Marker({
                     position: userLocation,
                     map: map,
                     title: "Your Location",
@@ -59,16 +72,30 @@ function initMap() {
                     },
                 });
 
-                // Center the map on the user's location
                 map.setCenter(userLocation);
             },
-            () => {
-                console.error("Geolocation service failed or was denied.");
-            }
+            () => console.error("Geolocation service failed or was denied.")
         );
     } else {
         console.error("Geolocation is not supported by this browser.");
     }
+}
+
+function calculateAndDisplayRoute(destination) {
+    directionsService.route(
+        {
+            origin: userLocation,
+            destination: destination,
+            travelMode: google.maps.TravelMode.WALKING,
+        },
+        (response, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(response);
+            } else {
+                console.error("Directions request failed due to " + status);
+            }
+        }
+    );
 }
 
 // Load the Google Maps API when the document is ready
