@@ -35,6 +35,26 @@ function initMap() {
         preserveViewport: true,
     });
 
+    const geoxml = new geoXML3.parser();
+
+    geoxml.parseKML('https://nicc041.github.io/PitStop/downtown.kml'); // Download and parse the KML
+
+    geoxml.docs[0].placemarks.forEach((placemark) => {
+        const name = placemark.name; // Extract placemark name
+        const coordinates = placemark.geometry.getCoordinates(); // Get coordinates
+
+        // Create a marker for each placemark
+        const marker = new google.maps.Marker({
+            position: { lat: coordinates.lat(), lng: coordinates.lng() },
+            map: map,
+            title: name, // Set marker title from placemark name
+            icon: { // Set a custom icon (optional)
+                url: 'path/to/your_icon.png', // Replace with your icon URL
+                anchor: new google.maps.Point(15, 30) // Adjust anchor point as needed
+            }
+        });
+    });
+
     // Geolocation: Show the user's current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
