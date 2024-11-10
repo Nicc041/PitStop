@@ -2,8 +2,20 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <name>Downtown Troy</name>
+
+    <Style id="CustomMarkerStyle">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/grn-blank.png</href>
+        </Icon>
+        <color>ff0000</color>
+        <scale>1.5</scale>
+      </IconStyle>
+    </Style>
+
     <NetworkLink>
       <name>Troy Bathrooms</name>
+      <styleUrl>#CustomMarkerStyle</styleUrl>
       <Link>
         <href><![CDATA[https://www.google.com/maps/d/kml?forcekml=1&mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&lid=A-4ug6eqltM]]></href>
       </Link>
