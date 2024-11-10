@@ -1,7 +1,7 @@
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization';  // Remove 'kml' from libraries
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization,marker';
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -10,10 +10,51 @@ function loadGoogleMapsAPI() {
 // Initialize map
 function initMap() {
     const troyNY = { lat: 42.7284, lng: -73.6918 }; // Center on Troy, NY
+
+        // Map styling to hide labels and places (POI)
+    const mapStyles = [
+        {
+            "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+                { "visibility": "off" }
+            ]
+        }
+    ];
+
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: troyNY,
         disableDefaultUI: true, 
+        styles: mapStyles, 
     });
 
     const kmlLayer = new google.maps.KmlLayer({
