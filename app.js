@@ -1,7 +1,7 @@
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization,marker';    
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry,visualization,marker';
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -45,9 +45,9 @@ function initMap() {
                 };
 
                 // Add a marker for the user's location
-                const userMarker = new google.maps.marker.AdvancedMarkerElement({
+                const userMarker = new google.maps.Marker({
                     position: userLocation,
-                    map,
+                    map: map,
                     title: "Your Location",
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
