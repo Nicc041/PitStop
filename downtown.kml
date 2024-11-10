@@ -3,11 +3,46 @@
   <Document>
     <name>Downtown Troy</name>
 
+    <!-- Define the style once and use it globally -->
+    <Style id="markerStyle">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff0000ff</color> <!-- Blue label -->
+      </LabelStyle>
+    </Style>
+
+    <!-- Sample Placemark 1 -->
+    <Placemark>
+      <name>Bathroom 1</name>
+      <description>Bathroom 1 is located here. Click for directions!</description>
+      <styleUrl>#markerStyle</styleUrl>
+      <Point>
+        <coordinates>-73.6907,42.7305</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- Sample Placemark 2 -->
+    <Placemark>
+      <name>Bathroom 2</name>
+      <description>Bathroom 2 is located here. Click for directions!</description>
+      <styleUrl>#markerStyle</styleUrl>
+      <Point>
+        <coordinates>-73.6908,42.7310</coordinates>
+      </Point>
+    </Placemark>
+
+    <!-- More placemarks as needed -->
+
     <NetworkLink>
       <name>Troy Bathrooms</name>
       <Link>
         <href><![CDATA[https://www.google.com/maps/d/kml?forcekml=1&mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&lid=A-4ug6eqltM]]></href>
       </Link>
     </NetworkLink>
+
   </Document>
 </kml>

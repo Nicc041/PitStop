@@ -10,6 +10,7 @@ function loadGoogleMapsAPI() {
 let userLocation;
 let directionsService;
 let directionsRenderer;
+let infoWindow;
 
 // Initialize map
 function initMap() {
@@ -32,48 +33,40 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
-    // const kmlLayer = new google.maps.KmlLayer({
-    //     url: 'https://nicc041.github.io/PitStop/downtown.kml',
-    //     map: map,
-    //     preserveViewport: true,
-    // });
+    infoWindow = new google.maps.InfoWindow();
 
-    const geoxml = new geoXML3.parser();
-    geoxml.parseKML('https://nicc041.github.io/PitStop/downtown.kml');
-
-    geoxml.docs[0].placemarks.forEach((placemark) => {
-        const name = placemark.name; 
-        const coordinates = placemark.geometry.getCoordinates(); 
-
-        // Define a marker with a colored circle symbol
-        const marker = new google.maps.Marker({
-            position: { lat: coordinates.lat(), lng: coordinates.lng() },
-            map: map,
-            title: name, 
-            icon: {
-                path: google.maps.SymbolPath.CHEVRON,
-                scale: 8, 
-                fillColor: "#FF0000", 
-                fillOpacity: 0.8, 
-                strokeColor: "#FFFFFF", 
-                strokeWeight: 2, 
-            }
-        });
+    const kmlLayer = new google.maps.KmlLayer({
+        url: 'https://nicc041.github.io/PitStop/downtown.kml',
+        map: map,
+        preserveViewport: true,
     });
 
     // Geolocation: Show the user's current location
     kmlLayer.addListener('click', (event) => {
+        const placemark = event.featureData;
+        const destination = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+        };
+
+        // Check if the user location is available
         if (userLocation) {
-            const destination = {
-                lat: event.latLng.lat(),
-                lng: event.latLng.lng()
-            };
-            calculateAndDisplayRoute(destination);
+            const contentString = `
+                <div>
+                    <h3>Directions to ${placemark.name}</h3>
+                    <p>${placemark.description}</p>
+                    <button onclick="calculateAndDisplayRoute({lat: ${destination.lat}, lng: ${destination.lng}})">Get Directions</button>
+                </div>
+            `;
+            infoWindow.setContent(contentString);
+            infoWindow.setPosition(event.latLng);
+            infoWindow.open(map);
         } else {
             alert("User location is not available.");
         }
     });
 
+    // Get user location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
