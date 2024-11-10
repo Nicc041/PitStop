@@ -38,4 +38,39 @@ function initMap() {
             });
         })
         .catch(error => console.error("Error loading KML data:", error));
+
+    // Geolocation: Show the user's current location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+
+                // Add a marker for the user's location
+                const userMarker = new google.maps.Marker({
+                    position: userLocation,
+                    map,
+                    title: "Your Location",
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 8,
+                        fillColor: "#4285F4",
+                        fillOpacity: 0.8,
+                        strokeColor: "#ffffff",
+                        strokeWeight: 2,
+                    },
+                });
+
+                // Center the map on the user's location
+                map.setCenter(userLocation);
+            },
+            () => {
+                console.error("Geolocation service failed or was denied.");
+            }
+        );
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
 }
