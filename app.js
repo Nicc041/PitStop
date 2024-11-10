@@ -38,13 +38,20 @@ function initMap() {
         preserveViewport: true,
     });
 
+    let infoWindow = new google.maps.InfoWindow();
+
     kmlLayer.addListener('click', (event) => {
         if (userLocation) {
             const destination = {
                 lat: event.latLng.lat(),
                 lng: event.latLng.lng()
             };
-            calculateAndDisplayRoute(destination);
+
+            const clickedPlacemark = event.feature;
+            const title = clickedPlacemark.getProperty('name');
+            const description = clickedPlacemark.getProperty('description');  
+
+            calculateAndDisplayRoute(destination, title, description);
         } else {
             alert("User location is not available.");
         }
@@ -81,7 +88,7 @@ function initMap() {
     }
 }
 
-function calculateAndDisplayRoute(destination) {
+function calculateAndDisplayRoute(destination, title, description) {
     directionsService.route(
         {
             origin: userLocation,
@@ -91,6 +98,31 @@ function calculateAndDisplayRoute(destination) {
         (response, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsRenderer.setDirections(response);
+
+                // Extract distance and duration
+                const route = response.routes[0];
+                const leg = route.legs[0]; // The first leg of the route
+                const distance = leg.distance.text; // Distance in human-readable format
+                const duration = leg.duration.text; // Duration in human-readable format
+
+                // Create a description string with the distance and duration
+                const routeDescription = `
+                    <strong>${title}</strong><br>
+                    ${description}<br><br>
+                    <strong>Distance:</strong> ${distance}<br>
+                    <strong>Duration:</strong> ${duration}
+                `;
+
+                // If InfoWindow is open, close it
+                if (infoWindow.getMap()) {
+                    infoWindow.close();
+                }
+
+                // Open the InfoWindow at the destination's position
+                infoWindow.setContent(routeDescription);
+                infoWindow.setPosition(destination);
+                infoWindow.open(map);
+
             } else {
                 console.error("Directions request failed due to " + status);
             }
