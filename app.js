@@ -1,7 +1,7 @@
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization,kml';  // Added 'kml' to libraries
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization';  // Remove 'kml' from libraries
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -33,7 +33,6 @@ function initMap() {
                     lng: position.coords.longitude,
                 };
 
-                // Add a marker for the user's location
                 const userMarker = new google.maps.Marker({
                     position: userLocation,
                     map,
@@ -48,11 +47,10 @@ function initMap() {
                     },
                 });
 
-                // Center the map on the user's location
                 map.setCenter(userLocation);
             },
-            () => {
-                console.error("Geolocation service failed or was denied.");
+            (error) => {
+                console.error("Geolocation service failed or was denied:", error.message);
             }
         );
     } else {
