@@ -38,6 +38,30 @@ function initMap() {
         preserveViewport: true,
     });
 
+    const geoxml = new geoXML3.parser();
+
+    geoxml.parseKML('https://nicc041.github.io/PitStop/downtown.kml'); 
+
+    geoxml.docs[0].placemarks.forEach((placemark) => {
+        const name = placemark.name; 
+        const coordinates = placemark.geometry.getCoordinates(); 
+
+        // Define a marker with a colored circle symbol
+        const marker = new google.maps.Marker({
+            position: { lat: coordinates.lat(), lng: coordinates.lng() },
+            map: map,
+            title: name, 
+            icon: {
+                path: google.maps.SymbolPath.CHEVRON,
+                scale: 8, 
+                fillColor: "#FF0000", 
+                fillOpacity: 0.8, 
+                strokeColor: "#FFFFFF", 
+                strokeWeight: 2, 
+            }
+        });
+    });
+
     // Geolocation: Show the user's current location
     kmlLayer.addListener('click', (event) => {
         if (userLocation) {
