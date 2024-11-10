@@ -10,7 +10,6 @@ function loadGoogleMapsAPI() {
 let userLocation;
 let directionsService;
 let directionsRenderer;
-let startMarker, destinationMarker;
 
 // Initialize map
 function initMap() {
@@ -46,7 +45,6 @@ function initMap() {
                 lng: event.latLng.lng()
             };
             calculateAndDisplayRoute(destination);
-            setDestinationMarker(destination, map);
         } else {
             alert("User location is not available.");
         }
@@ -60,8 +58,7 @@ function initMap() {
                     lng: position.coords.longitude,
                 };
 
-                // Create a custom user location marker
-                startMarker = new google.maps.Marker({
+                new google.maps.Marker({
                     position: userLocation,
                     map: map,
                     title: "Your Location",
@@ -99,29 +96,6 @@ function calculateAndDisplayRoute(destination) {
             }
         }
     );
-}
-
-// Add the destination marker on the map
-function setDestinationMarker(destination, map) {
-    // Remove the previous destination marker if it exists
-    if (destinationMarker) {
-        destinationMarker.setMap(null);
-    }
-
-    // Create and place a new destination marker
-    destinationMarker = new google.maps.Marker({
-        position: destination,
-        map: map,
-        title: "Destination",
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 8,
-            fillColor: "#FF0000", // Red color for the destination
-            fillOpacity: 0.8,
-            strokeColor: "#ffffff",
-            strokeWeight: 2,
-        },
-    });
 }
 
 // Load the Google Maps API when the document is ready

@@ -1,47 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Downtown Troy</name>
+    <name>Downtown Troy</name>s
 
     <NetworkLink>
       <name>Troy Bathrooms</name>
       <Link>
         <href><![CDATA[https://www.google.com/maps/d/kml?forcekml=1&mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&lid=A-4ug6eqltM]]></href>
       </Link>
-      <Update>
-
-        <Change>
-          <targetHref>https://www.google.com/maps/d/kml?forcekml=1&mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&lid=A-4ug6eqltM</targetHref>
-          <Style id="icon-1899-0288D1-normal">
-            <IconStyle>
-              <color>ff00ff00</color> <!-- Green color with full opacity -->
-              <scale>1.5</scale> <!-- Increased scale -->
-              <Icon>
-                <href>https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Map_marker_icon.svg/1024px-Map_marker_icon.svg.png</href> <!-- Changed to a new icon -->
-              </Icon>
-              <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-            </IconStyle>
-            <LabelStyle>
-              <scale>0.7</scale> <!-- Reduced label scale -->
-            </LabelStyle>
-          </Style>
-
-          <Style id="icon-1899-0288D1-highlight">
-            <IconStyle>
-              <color>ff00ff00</color> <!-- Green color with full opacity -->
-              <scale>1.8</scale> <!-- Increased scale for highlight -->
-              <Icon>
-                <href>https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Map_marker_icon.svg/1024px-Map_marker_icon.svg.png</href> <!-- New icon -->
-              </Icon>
-              <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-            </IconStyle>
-            <LabelStyle>
-              <scale>1.2</scale> <!-- Increased label scale when highlighted -->
-            </LabelStyle>
-          </Style>
-        </Change>
-        
-      </Update>
     </NetworkLink>
 
   </Document>
