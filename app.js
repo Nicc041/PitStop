@@ -38,38 +38,7 @@ function initMap() {
     const kmlLayer = new google.maps.KmlLayer({
         url: 'https://nicc041.github.io/PitStop/downtown.kml',
         map: map,
-        preserveViewport: false,
-    });
-
-    kmlLayer.addListener('click', (event) => {
-        const placemark = event.featureData;
-        const destination = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-
-        // Check if the user location is available
-        if (userLocation) {
-            // Close the info window if it's already open
-            if (infoWindow) {
-                infoWindow.close(); // Close the previous info window
-            }
-
-            const contentString = `
-                <div>
-                    <h3>Directions to ${placemark.name}</h3>
-                    <p>${placemark.description}</p>
-                    <button onclick="calculateAndDisplayRoute({lat: ${destination.lat}, lng: ${destination.lng}})">Get Directions</button>
-                </div>
-            `;
-
-            // Set the content and position of the info window
-            infoWindow.setContent(contentString);
-            infoWindow.setPosition(event.latLng);
-            infoWindow.open(map); // Open the new info window
-        } else {
-            alert("User location is not available.");
-        }
+        preserveViewport: true,
     });
 
     // Geolocation: Show the user's current location
