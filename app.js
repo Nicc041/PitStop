@@ -1,3 +1,13 @@
+// Dynamically load the Google Maps JavaScript API
+function loadGoogleMapsAPI() {
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB1MV-DVA0tixP2NNh-VB1rDK7mPew9W7I&callback=initMap&libraries=geometry,visualization';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+}
+
+// Initialize the Google Map
 function initMap() {
     const troyNY = { lat: 42.7284, lng: -73.6918 };
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -46,3 +56,6 @@ function initMap() {
         console.error("Geolocation is not supported by this browser.");
     }
 }
+
+// Load the Google Maps API when the document is ready
+loadGoogleMapsAPI();
