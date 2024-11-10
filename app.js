@@ -32,15 +32,14 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
-    const kmlLayer = new google.maps.KmlLayer({
-        url: 'https://nicc041.github.io/PitStop/downtown.kml',
-        map: map,
-        preserveViewport: true,
-    });
+    // const kmlLayer = new google.maps.KmlLayer({
+    //     url: 'https://nicc041.github.io/PitStop/downtown.kml',
+    //     map: map,
+    //     preserveViewport: true,
+    // });
 
     const geoxml = new geoXML3.parser();
-
-    geoxml.parseKML('https://nicc041.github.io/PitStop/downtown.kml'); 
+    geoxml.parseKML('https://nicc041.github.io/PitStop/downtown.kml');
 
     geoxml.docs[0].placemarks.forEach((placemark) => {
         const name = placemark.name; 
@@ -123,5 +122,4 @@ function calculateAndDisplayRoute(destination) {
     );
 }
 
-// Load the Google Maps API when the document is ready
 loadGoogleMapsAPI();
