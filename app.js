@@ -7,24 +7,48 @@ function loadGoogleMapsAPI() {
     document.body.appendChild(script);
 }
 
-// Initialize the Google Map
+// Initialize map
 function initMap() {
-    const troyNY = { lat: 42.7284, lng: -73.6918 };
+    const troyNY = { lat: 42.7284, lng: -73.6918 }; // Center on Troy, NY
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: troyNY,
     });
 
-    // Ensure that the KML Layer is loaded correctly
-    const kmlLayer = new google.maps.KMLLayer({
-        url: 'downtown.kml',
-        map: map,
-    });
+    // Add markers from Google My Maps link
+    fetch("https://www.google.com/maps/d/u/0/kml?mid=1WRdL1YfZysVpV1d3_A3q0uZE9enEFgE&output=kml")
+        .then(response => response.text())
+        .then(data => {
+            const parser = new DOMParser();
+            const kmlDoc = parser.parseFromString(data, "application/xml");
+            const placemarks = kmlDoc.querySelectorAll("Placemark");
 
-    kmlLayer.setOptions({
-        suppressInfoWindows: false,
-    });
+            placemarks.forEach(placemark => {
+                const name = placemark.querySelector("name").textContent;
+                const coords = placemark.querySelector("coordinates").textContent.trim().split(",");
+                const position = {
+                    lat: parseFloat(coords[1]),
+                    lng: parseFloat(coords[0]),
+                };
 
+                const marker = new google.maps.Marker({
+                    position,
+                    map,
+                    title: name,
+                });
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<h3>${name}</h3>`,
+                });
+
+                marker.addListener("click", () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+        })
+        .catch(error => console.error("Error loading KML data:", error));
+
+    // Geolocation: Show the user's current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -33,6 +57,7 @@ function initMap() {
                     lng: position.coords.longitude,
                 };
 
+                // Add a marker for the user's location
                 const userMarker = new google.maps.Marker({
                     position: userLocation,
                     map,
@@ -47,10 +72,11 @@ function initMap() {
                     },
                 });
 
+                // Center the map on the user's location
                 map.setCenter(userLocation);
             },
-            (error) => {
-                console.error("Geolocation service failed or was denied:", error.message);
+            () => {
+                console.error("Geolocation service failed or was denied.");
             }
         );
     } else {
