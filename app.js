@@ -16,7 +16,7 @@ function initMap() {
     });
 
     const kmlLayer = new google.maps.KmlLayer({
-        url: 'downtown.kml',
+        url: 'https://nicc041.github.io/PitStop/downtown.kml',
         map: map,
         preserveViewport: true,
     });
@@ -31,7 +31,7 @@ function initMap() {
                 };
 
                 // Add a marker for the user's location
-                const userMarker = new google.maps.Marker({
+                const userMarker = new google.maps.marker.AdvancedMarkerElement({
                     position: userLocation,
                     map,
                     title: "Your Location",
