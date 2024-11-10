@@ -39,30 +39,13 @@ function initMap() {
         preserveViewport: true,
     });
 
-    let infoWindow = new google.maps.InfoWindow();
-
     kmlLayer.addListener('click', (event) => {
         if (userLocation) {
             const destination = {
                 lat: event.latLng.lat(),
                 lng: event.latLng.lng()
             };
-
-            const clickedPlacemark = event.feature;
-
-            // Ensure that the clickedPlacemark is valid and has the properties we expect
-            if (clickedPlacemark) {
-                const title = clickedPlacemark.getProperty('name');
-                const description = clickedPlacemark.getProperty('description');
-
-                if (title && description) {
-                    calculateAndDisplayRoute(destination, title, description);
-                } else {
-                    console.error('No title or description available for this placemark.');
-                }
-            } else {
-                console.error('No placemark clicked or invalid feature.');
-            }
+            calculateAndDisplayRoute(destination);
         } else {
             alert("User location is not available.");
         }
@@ -100,7 +83,7 @@ function initMap() {
     }
 }
 
-function calculateAndDisplayRoute(destination, title, description) {
+function calculateAndDisplayRoute(destination) {
     directionsService.route(
         {
             origin: userLocation,
@@ -110,45 +93,6 @@ function calculateAndDisplayRoute(destination, title, description) {
         (response, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsRenderer.setDirections(response);
-
-                // Extract the first leg of the route
-                const route = response.routes[0];
-                const leg = route.legs[0]; // The first leg of the route
-                const distance = leg.distance.text; // Distance in human-readable format
-                const duration = leg.duration.text; // Duration in human-readable format
-
-                // Create a description string with the distance and duration
-                const routeDescription = `
-                    <strong>${title}</strong><br>
-                    ${description}<br><br>
-                    <strong>Distance:</strong> ${distance}<br>
-                    <strong>Duration:</strong> ${duration}
-                `;
-
-                // Create destination marker with custom icon
-                destinationMarker = new google.maps.Marker({
-                    position: destination,
-                    map: directionsRenderer.getMap(),
-                    title: "Destination",
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 10,
-                        fillColor: "#DB4437", // Red color for destination
-                        fillOpacity: 0.8,
-                        strokeColor: "#ffffff",
-                        strokeWeight: 2,
-                    },
-                });
-
-                // If InfoWindow is open, close it
-                if (infoWindow.getMap()) {
-                    infoWindow.close();
-                }
-
-                // Open the InfoWindow at the destination's position
-                infoWindow.setContent(routeDescription);
-                infoWindow.setPosition(destination);
-                infoWindow.open(directionsRenderer.getMap());
             } else {
                 console.error("Directions request failed due to " + status);
             }
