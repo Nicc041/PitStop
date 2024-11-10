@@ -1,3 +1,5 @@
+let map;
+
 // Dynamically load the Google Maps JavaScript API
 function loadGoogleMapsAPI() {
     const script = document.createElement('script');
@@ -15,7 +17,7 @@ let directionsRenderer;
 function initMap() {
     const troyNY = { lat: 42.7284, lng: -73.6918 }; // Center on Troy, NY
 
-    const map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
         center: troyNY,
         disableDefaultUI: true,
@@ -29,7 +31,7 @@ function initMap() {
     });
 
     directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers: true});
     directionsRenderer.setMap(map);
 
     const kmlLayer = new google.maps.KmlLayer({
@@ -44,6 +46,11 @@ function initMap() {
                 lat: event.latLng.lat(),
                 lng: event.latLng.lng()
             };
+
+            // makeMarker(destination, "Destination.png", "Destination");
+            // if (destinationMarker) {
+            //     destinationMarker.setMap(null);
+            // }
             calculateAndDisplayRoute(destination);
         } else {
             alert("User location is not available.");
@@ -81,6 +88,8 @@ function initMap() {
     }
 }
 
+// let destinationMarker = null;
+
 function calculateAndDisplayRoute(destination) {
     directionsService.route(
         {
@@ -91,11 +100,26 @@ function calculateAndDisplayRoute(destination) {
         (response, status) => {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsRenderer.setDirections(response);
+
+                const leg = response.routes[0].legs[0];
+                makeMarker(leg.end_location, 'Destination.png', "End");
             } else {
                 console.error("Directions request failed due to " + status);
             }
         }
     );
+}
+
+function makeMarker(position, iconUrl, title) {
+    new google.maps.Marker({
+        position: position,
+        map: map, // Use the global map variable
+        icon: {
+            url: iconUrl,
+            scaledSize: new google.maps.Size(40, 40), // Adjust size as needed
+        },
+        title: title
+    });
 }
 
 // Load the Google Maps API when the document is ready
