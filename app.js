@@ -20,7 +20,6 @@ function initMap() {
         zoom: 15,
         center: troyNY,
         disableDefaultUI: true,
-        colorScheme: ColorScheme.FOLLOW_SYSTEM,
         styles: [
             {
                 "featureType": "poi",
