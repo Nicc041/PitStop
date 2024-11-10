@@ -38,7 +38,7 @@ function initMap() {
     const kmlLayer = new google.maps.KmlLayer({
         url: 'https://nicc041.github.io/PitStop/downtown.kml',
         map: map,
-        preserveViewport: true,
+        preserveViewport: false,
     });
 
     kmlLayer.addListener('click', (event) => {
@@ -71,7 +71,7 @@ function initMap() {
             alert("User location is not available.");
         }
     });
-    
+
     // Geolocation: Show the user's current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
